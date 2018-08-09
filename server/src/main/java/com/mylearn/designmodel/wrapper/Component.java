@@ -1,0 +1,16 @@
+package com.mylearn.designmodel.wrapper;
+
+/**
+ * Created by IntelliJ IDEA.
+ * User: yingkuohao
+ * Date: 14-1-26
+ * Time: ????11:50
+ * CopyRight:360buy
+ * Descrption: ?????????????????????????????
+ * To change this template use File | Settings | File Templates.
+ */
+public interface Component {
+
+    public void show();
+
+}

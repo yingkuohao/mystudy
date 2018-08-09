@@ -1,0 +1,37 @@
+package com.mylearn.threadpool;
+
+/**
+ * Created by IntelliJ IDEA.
+ * User: yingkh
+ * Date: 13-3-20
+ * Time: ????9:54
+ * CopyRight:360buy
+ * Descrption: ?????????????
+ * ??????????????§Ö?????????
+ * To change this template use File | Settings | File Templates.
+ */
+public class WorkThread implements Runnable {
+
+    private ThreadPoolService service;
+
+    public WorkThread(ThreadPoolService threadPoolService) {
+        this.service = threadPoolService;
+    }
+
+
+    public void run() {
+        //?§Ø????????????????
+        while (service.isRunning()) {
+            // ??????????
+            TaskQueue queue = service.getTaskQueue();
+
+            Task task = queue.getTask();
+            if (task != null) {
+                task.deal();
+            }
+            //??????????????????
+            queue.finishTask(task);
+        }
+
+    }
+}

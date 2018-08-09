@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "http://toolkit.alibaba-inc.com/dtd/log4j/log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+    <appender name="TDDL_LOG" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="${user.home}/alicpaccount/logs/alicp-account-tddl.log" />
+        <param name="Encoding" value="UTF-8" />
+        <param name="Append" value="true" />
+        <param name="DatePattern" value="'.'yyyy-MM-dd" />                                                                                                                         `
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%-d{yyyy-MM-dd HH:mm:ss,SSS} %-5p [%c.%M:%L] %m%n" />
+        </layout>
+    </appender>
+    
+    <appender name="TAIR_LOG" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="${user.home}/alicpaccount/logs/alicp-account-tair.log" />
+        <param name="Encoding" value="UTF-8" />
+        <param name="Append" value="true" />
+        <param name="DatePattern" value="'.'yyyy-MM-dd" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%-d{yyyy-MM-dd HH:mm:ss,SSS} %-5p [%c.%M:%L] %m%n" />
+        </layout>
+    </appender>
+    
+    <appender name="DIAMOND_LOG" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="${user.home}/alicpaccount/logs/alicp-account-diamond.log" />
+        <param name="Encoding" value="UTF-8" />
+        <param name="Append" value="true" />
+        <param name="DatePattern" value="'.'yyyy-MM-dd" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%-d{yyyy-MM-dd HH:mm:ss,SSS} %-5p [%c.%M:%L] %m%n" />
+        </layout>
+    </appender>
+    
+    <appender name="CUNTAO_LOG" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="${user.home}/alicpaccount/logs/alicp-account-cuntao.log" />
+        <param name="Encoding" value="UTF-8" />
+        <param name="Append" value="true" />
+        <param name="DatePattern" value="'.'yyyy-MM-dd" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%-d{yyyy-MM-dd HH:mm:ss,SSS} %-5p [%c.%M:%L] %m%n" />
+        </layout>
+    </appender>
+
+    <appender name="PROJECT" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="file" value="${user.home}/monitor/logs/alicp-monitor.log"/>
+        <param name="append" value="true"/>
+        <param name="encoding" value="GB2312"/>
+        <param name="threshold" value="info"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern"
+                   value="%n%d [%X{loginUserNick}@%X{remoteAddr} - %X{method} %X{requestURIWithQueryString}] %nUserAgent: %X{userAgent}%nReferrer: %X{referrer}%n%-5p %c{2} - %m%n"/>
+        </layout>
+    </appender>
+    
+    <appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">  
+        <layout class="org.apache.log4j.PatternLayout">  
+        <param name="ConversionPattern"  
+            value="%d - %c -%-4r [%t] %-5p %x - %m%n" />  
+        </layout>  
+     </appender> 
+     
+    <logger name="com.alicp.account.cuntao" additivity="true">
+        <level value="info" />
+        <appender-ref ref="CUNTAO_LOG" />
+    </logger>
+    
+    <logger name="com.taobao.tair" additivity="false">
+        <level value="info" />
+        <appender-ref ref="TAIR_LOG" />
+    </logger>
+    
+    <logger name="com.taobao.tddl" additivity="false">
+        <level value="info" />
+        <appender-ref ref="TDDL_LOG" />
+    </logger>
+    
+    <logger name="com.taobao.diamond" additivity="false">
+        <level value="info" />
+        <appender-ref ref="DIAMOND_LOG" />
+    </logger>
+
+    <root>
+        <level value="DEBUG"/>
+        <appender-ref ref="PROJECT"/>
+        <appender-ref ref="CONSOLE"/>
+    </root>
+
+</log4j:configuration>

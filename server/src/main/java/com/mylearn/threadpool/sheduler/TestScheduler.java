@@ -1,0 +1,102 @@
+package com.mylearn.threadpool.sheduler;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.concurrent.*;
+
+/**
+ * Created by IntelliJ IDEA.
+ * User: kuohao.ykh
+ * Date: 2015/2/26
+ * Time: 11:40
+ * CopyRight: taobao
+ * Descrption:
+ * ScheduledExecutorService ??}???????????? ScheduleAtFixedRate ?? ScheduleWithFixedDelay??ScheduleAtFixedRate ?????????????????????????????????????????????? :initialDelay, initialDelay+period, initialDelay+2*period, ????ScheduleWithFixedDelay ??????????????????????????????????????????????????initialDelay, initialDelay+executeTime+delay, initialDelay+2*executeTime+2*delay???????ScheduleAtFixedRate ??????????????????????ScheduleWithFixedDelay ??????????????§Ö???????????????????????????????
+ */
+
+public class TestScheduler {
+    static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+//    static final ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(2);
+    static final ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor(new ThreadFactory() {
+    @Override
+    public Thread newThread(Runnable r) {
+        Thread thread = new Thread(r);
+        thread.setDaemon(true);
+        thread.setName("my test sheculer service");
+        return thread;
+    }
+});
+
+    public static void main(String args[]) {
+//        testScheduleWithFixedDelayFuture();
+        testScheduleAtFixedRate();
+        try {
+            Thread.sleep(20*1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    /**
+     * ?????????????
+     */
+    private static void testScheduleWithFixedDelayFuture() {
+        //1.??????????????
+        Runnable runnable = getFixedDelayCommand();
+        //2.???????2???????????5????????
+        System.out.println("being at:" + sdf.format(new Date()));
+        final ScheduledFuture<?> scheduleWithFixedDelayFuture = scheduledExecutorService.scheduleWithFixedDelay(runnable, 2, 5, TimeUnit.SECONDS);
+        //3.20???????????????????
+        shutDown(scheduleWithFixedDelayFuture);
+    }
+
+    private static Runnable getFixedDelayCommand() {
+        return new Runnable() {
+            @Override
+            public void run() {
+                long time = (long) (Math.random() * 10 * 1000);
+                // ?????????????????????????????
+                System.out.println(sdf.format(new Date()) + "???:" + Thread.currentThread().getName() + ":Sleeping" + time + "ms");
+                try {
+                    Thread.sleep(time);
+                } catch (InterruptedException e) {
+
+                }
+            }
+        };
+    }
+
+    /**
+     * ?????????????
+     */
+    private static void testScheduleAtFixedRate() {
+        //1.??????????????
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                System.out.println(" begin to do something at:" + sdf.format(new Date()));
+            }
+        };
+        //2.???????2???????????5????????
+        System.out.println("being at:" + sdf.format(new Date()));
+        final ScheduledFuture<?> scheduledFixedFuture = scheduledExecutorService.scheduleAtFixedRate(runnable, 2, 5, TimeUnit.SECONDS);
+        //3.20???????????????????
+        shutDown(scheduledFixedFuture);
+
+    }
+
+    private static void shutDown(final ScheduledFuture<?> scheduledFixedFuture) {
+        //20???????????????????
+        Runnable cancel = new Runnable() {
+            @Override
+            public void run() {
+                scheduledFixedFuture.cancel(true);
+                scheduledExecutorService.shutdown();
+                System.out.println("shutdown at:" + sdf.format(new Date()));
+            }
+        };
+        scheduledExecutorService.schedule(cancel, 20, TimeUnit.SECONDS);
+    }
+
+}

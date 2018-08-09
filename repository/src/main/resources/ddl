@@ -1,0 +1,36 @@
+
+CREATE TABLE fang_service_gift
+(
+    id BIGINT(20) UNSIGNED PRIMARY KEY NOT NULL COMMENT '主键',
+    service_id BIGINT(20) UNSIGNED NOT NULL COMMENT '服务ID',
+    service_name VARCHAR(128) NOT NULL COMMENT '服务名称(冗余)',
+    gift_type TINYINT(4) NOT NULL COMMENT '奖项类型(1:红包2：集分宝3：事务看房礼 4：专车 5：看房团 6：案场活动 )',
+    online_type TINYINT(5) NOT NULL COMMENT '线上线下类型（1：线上礼品2：线下礼品）',
+    isMutex TINYINT(6) COMMENT '可否与其他礼品互斥（1：是 2：否）',
+    status TINYINT(4) NOT NULL COMMENT '1：有效 0：无效 -1：废除 ',
+    begin_time VARCHAR(128) NOT NULL COMMENT '开始时间 YYYY-mm-dd HH:mm:ss',
+    end_time VARCHAR(128) NOT NULL COMMENT '截止时间',
+    title VARCHAR(129) NOT NULL COMMENT '礼品名称',
+    gift_desc VARCHAR(512) COMMENT '礼品描述',
+    pic_url VARCHAR(512) COMMENT '礼品图片',
+    gift_price FLOAT COMMENT '单个礼包金额',
+    gift_num_total INT(11) COMMENT '单日礼包数量(总)',
+    gift_stock INT(11) COMMENT '礼包库存（用户预约后减库存）',
+    out_id BIGINT(20) UNSIGNED COMMENT '外部id',
+    out_url VARCHAR(128) COMMENT '外部链接',
+    ext VARCHAR(512) COMMENT '扩展属性',
+    gmt_create DATETIME NOT NULL COMMENT '创建时间',
+    gmt_modified DATETIME NOT NULL COMMENT '修改时间'
+);
+CREATE INDEX idx_service_id ON fang_service_gift (service_id, gift_type);
+CREATE TABLE user
+(
+    id INT(11) PRIMARY KEY NOT NULL,
+    name VARCHAR(20),
+    age INT(11)
+);
+CREATE TABLE role
+(
+    id INT(11) PRIMARY KEY NOT NULL,
+    roleName VARCHAR(32)
+);
